@@ -1,0 +1,42 @@
+[
+  {
+    "name": "slp1_single_short",
+    "input": "a",
+    "expected": {
+      "pattern": "G",
+      "syllables": 1
+    }
+  },
+  {
+    "name": "devanagari_single_long",
+    "input": "राम",
+    "expected": {
+      "syllables": 2
+    }
+  },
+  {
+    "name": "slp1_eight_short",
+    "input": "a a a a a a a a",
+    "expected": {
+      "pattern": "LLLLLLLG",
+      "syllables": 8,
+      "meter": "anuṣṭup"
+    }
+  },
+  {
+    "name": "iast_long_vowels",
+    "input": "ā ī ū",
+    "expected": {
+      "pattern": "GGG",
+      "syllables": 3
+    }
+  },
+  {
+    "name": "devanagari_anushtup_example",
+    "input": "वागर्थाविव संपृक्तौ",
+    "expected": {
+      "syllables": 8,
+      "meter": "anuṣṭup"
+    }
+  }
+]

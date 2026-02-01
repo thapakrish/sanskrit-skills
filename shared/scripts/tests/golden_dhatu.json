@@ -1,0 +1,53 @@
+[
+  {
+    "name": "lookup_gam",
+    "type": "lookup",
+    "input": "gam",
+    "expected": {
+      "gana": 1,
+      "meaning": "to go",
+      "pada": "P",
+      "forms": {
+        "lat": "gacchati"
+      }
+    }
+  },
+  {
+    "name": "lookup_alt_bhu",
+    "type": "lookup",
+    "input": "bhu",
+    "expected": {
+      "gana": 1,
+      "meaning": "to be, to become",
+      "pada": "P"
+    }
+  },
+  {
+    "name": "lookup_devanagari_gam",
+    "type": "lookup",
+    "input": "गम्",
+    "expected": {
+      "gana": 1,
+      "meaning": "to go",
+      "pada": "P"
+    }
+  },
+  {
+    "name": "list_by_gana_contains",
+    "type": "list_by_gana_contains",
+    "input": 1,
+    "expected": [
+      "gam",
+      "bhū"
+    ]
+  },
+  {
+    "name": "search_by_meaning_contains",
+    "type": "search_by_meaning_contains",
+    "input": "to go",
+    "expected": [
+      "gam",
+      "i"
+    ]
+  }
+]

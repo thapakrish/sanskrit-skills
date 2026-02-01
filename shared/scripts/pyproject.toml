@@ -1,0 +1,19 @@
+[project]
+name = "sanskrit-tools"
+version = "0.1.0"
+description = "Sanskrit processing utilities for AI agent skills"
+requires-python = ">=3.10"
+dependencies = [
+    "indic-transliteration>=2.3.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "sanskrit_parser>=0.2.0",
+    "vidyut>=0.4.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0",
+]

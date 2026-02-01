@@ -1,0 +1,32 @@
+[
+  {
+    "name": "join_savarna_dirgha",
+    "type": "join",
+    "input": ["deva", "ālaya"],
+    "expected": "devālaya"
+  },
+  {
+    "name": "join_savarna_dirgha_devanagari",
+    "type": "join",
+    "input": ["देव", "आलय"],
+    "expected": "देवालय"
+  },
+  {
+    "name": "join_yan_sandhi",
+    "type": "join",
+    "input": ["hari", "āgacchati"],
+    "expected": "haryāgacchati"
+  },
+  {
+    "name": "split_parser_devanagari_devālaya",
+    "type": "split_parser",
+    "input": "देवालय",
+    "expected": ["देव", "आलय"]
+  },
+  {
+    "name": "split_parser_devanagari_ityadi",
+    "type": "split_parser",
+    "input": "इत्यादि",
+    "expected": ["इत्य", "आदि"]
+  }
+]
