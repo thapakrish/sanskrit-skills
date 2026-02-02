@@ -190,7 +190,7 @@ cd shared/scripts && uv sync
 
 | Need | Use |
 |------|-----|
-| Analyze specific verse | **sloka-analysis** |
+| Analyze specific verse | **sloka** |
 | Grammar of stotra text | **vyakarana** |
 | Word meanings | **kosha** |
 | Literary context | **sahitya** |

@@ -116,5 +116,5 @@ cd shared/scripts && uv sync
 | Need | Use |
 |------|-----|
 | Grammar analysis | **vyakarana** |
-| Verse analysis | **sloka-analysis** |
+| Verse analysis | **sloka** |
 | Literary context | **sahitya** |

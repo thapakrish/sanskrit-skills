@@ -34,17 +34,34 @@ except ImportError:
 try:
     from indic_transliteration import sanscript
     from indic_transliteration.sanscript import transliterate
+    from indic_transliteration.detect import detect
     TRANSLITERATION_AVAILABLE = True
 except ImportError:
     TRANSLITERATION_AVAILABLE = False
 
 
 def detect_scheme(text):
-    """Detect if text is Devanagari or romanized."""
-    for char in text:
-        if '\u0900' <= char <= '\u097F':  # Devanagari range
-            return 'devanagari'
-    return 'iast'  # Assume IAST for roman
+    """Detect transliteration scheme using indic-transliteration."""
+    if not TRANSLITERATION_AVAILABLE:
+        for char in text:
+            if '\u0900' <= char <= '\u097F':
+                return 'devanagari'
+        return 'iast'
+
+    scheme = detect(text)
+    if scheme == sanscript.DEVANAGARI:
+        return 'devanagari'
+    if scheme == sanscript.SLP1:
+        return 'slp1'
+    if scheme == sanscript.HK:
+        return 'hk'
+    if scheme == sanscript.ITRANS:
+        return 'itrans'
+    if scheme == sanscript.VELTHUIS:
+        return 'velthuis'
+    if scheme == sanscript.WX:
+        return 'wx'
+    return 'iast'
 
 
 def to_slp1(text):
@@ -54,8 +71,17 @@ def to_slp1(text):
     scheme = detect_scheme(text)
     if scheme == 'devanagari':
         return transliterate(text, sanscript.DEVANAGARI, sanscript.SLP1)
+    if scheme == 'slp1':
+        return text
+    if scheme == 'hk':
+        return transliterate(text, sanscript.HK, sanscript.SLP1)
+    if scheme == 'itrans':
+        return transliterate(text, sanscript.ITRANS, sanscript.SLP1)
+    if scheme == 'velthuis':
+        return transliterate(text, sanscript.VELTHUIS, sanscript.SLP1)
+    if scheme == 'wx':
+        return transliterate(text, sanscript.WX, sanscript.SLP1)
     else:
-        # Try IAST first
         return transliterate(text, sanscript.IAST, sanscript.SLP1)
 
 
@@ -65,6 +91,8 @@ def from_slp1(text, target='iast'):
         return text
     if target == 'devanagari':
         return transliterate(text, sanscript.SLP1, sanscript.DEVANAGARI)
+    if target == 'slp1':
+        return text
     else:
         return transliterate(text, sanscript.SLP1, sanscript.IAST)
 
@@ -90,6 +118,10 @@ def split_sandhi_parser(text):
             words = [from_slp1(str(w), original_scheme) for w in parts]
             # Canonicalize common enclitic sandhi artifacts
             words = ['इति' if w == 'इत्य' else w for w in words]
+            if len(words) >= 2:
+                for i in range(1, len(words)):
+                    if words[i - 1] == 'इति' and words[i] == 'अदि':
+                        words[i] = 'आदि'
             results.append(words)
         return results
     except Exception as e:

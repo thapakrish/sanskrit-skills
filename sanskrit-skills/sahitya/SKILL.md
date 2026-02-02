@@ -1,6 +1,6 @@
 ---
 name: sahitya
-description: Sanskrit literature guide for text-level discussions — plot summaries, author biographies, literary genres, kavya theory (rasa, dhvani, alankara schools). Use when asking about poets (Kalidasa, Bharavi), texts as wholes (what is Meghaduta about?), literary history, or aesthetic theory. For analyzing a specific verse, use sloka-analysis instead.
+description: Sanskrit literature guide for text-level discussions — plot summaries, author biographies, literary genres, kavya theory (rasa, dhvani, alankara schools). Use when asking about poets (Kalidasa, Bharavi), texts as wholes (what is Meghaduta about?), literary history, or aesthetic theory. For analyzing a specific verse, use sloka instead.
 ---
 
 # Sahitya (Sanskrit Literature)
@@ -125,7 +125,7 @@ cd shared/scripts && uv sync
 
 | Need | Use |
 |------|-----|
-| Analyze specific verse | **sloka-analysis** |
+| Analyze specific verse | **sloka** |
 | Grammar questions | **vyakarana** |
 | Word meanings | **kosha** |
 | Devotional hymns | **stotra** |

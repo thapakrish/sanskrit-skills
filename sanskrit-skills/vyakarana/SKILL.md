@@ -168,7 +168,7 @@ Formation: राजन् + अस् (षष्ठी/पञ्चमी ए�
 
 | Need | Use |
 |------|-----|
-| Full verse analysis | **sloka-analysis** |
+| Full verse analysis | **sloka** |
 | Word meanings, synonyms | **kosha** |
 | Literary context | **sahitya** |
 | Shared scripts/references | **shared** |

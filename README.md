@@ -6,7 +6,7 @@ This suite transforms your AI assistant into a knowledgeable Sanskrit tutor, cap
 
 ## Features
 
-- **🔎 Sloka Analysis (`sloka-analysis`)**
+- **🔎 Sloka Analysis (`sloka`)**
   - Break down verses (Padachheda) & rearrange syntax (Anvaya).
   - Identify meters (Chandas) automatically using Python algorithms.
   - Explain figures of speech (Alankaras) and traditional commentaries.
@@ -36,22 +36,24 @@ This suite transforms your AI assistant into a knowledgeable Sanskrit tutor, cap
 Install the suite using your agent's skill management tool. For environments supporting the `skills` registry:
 
 ```bash
-npx skills add https://github.com/thapakrish/sanskrit-skills --skill sanskrit-skills
+npx skills add https://github.com/thapakrish/sanskrit-skills --skill sanskrit-skills -g
 ```
+
+*Note: Use the `-g` flag to ensure the skill is symlinked across all supported agents (Gemini, Claude, etc.).*
 
 ## First-Time Setup
 
-After installation, you must initialize the Python environment to enable the grammar and meter engines.
+After installation, the agent will have access to the suite. To enable the heavy grammar and meter engines, the Python environment must be initialized.
 
 1.  Ask your agent: *"Setup the Sanskrit environment"*
-2.  Or manually run:
+2.  Or manually run within the skill directory:
 
 ```bash
 cd shared/scripts
 uv sync --extra full
 ```
 
-This installs powerful libraries like `sanskrit_parser`, `indic_transliteration`, and `vidyut`.
+This installs powerful libraries like `sanskrit_parser`, `indic_transliteration`, `vidyut`, and references the **[Chanda](https://github.com/hrishikeshrt/chanda)** library for advanced meter analysis.
 
 ## Usage Examples
 

@@ -165,6 +165,7 @@
 
 | Tool | Function |
 |------|----------|
+| **Chanda** | Comprehensive Python library for Sanskrit meter identification (github.com/hrishikeshrt/chanda) |
 | **IITK Sanskrit** | AI tools, chandas examples, and resources (sanskrit.iitk.ac.in) |
 
 ### Morphological Analysis
@@ -172,7 +173,7 @@
 | Tool | Function |
 |------|----------|
 | **Sanskrit Heritage** (Inria) | Word analysis, sandhi |
-| **Sanskrit Parser** | Sentence analysis |
+| **Sanskrit Parser** | Sentence analysis and morphological parsing (github.com/kmadathil/sanskrit_parser) |
 | **DCS** (Digital Corpus) | Tagged texts |
 | **Dharmamitra** | AI grammar parsing, lemmatization |
 

@@ -1,5 +1,5 @@
 ---
-name: sloka-analysis
+name: sloka
 description: Detailed analysis of individual Sanskrit verses (shlokas) including anvaya (prose order), padachheda (word-by-word breakdown), chandas (meter), alankara (figures of speech), traditional commentary, and meaning. Use when a user provides a specific verse to analyze or asks to explain a particular shloka. For text-level discussions (author info, plot summaries, literary history), use sahitya instead.
 ---
 
@@ -94,9 +94,10 @@ For detailed information, see:
 - [references/alankaras.md](references/alankaras.md) - Figures of speech with examples
 - [references/commentators.md](references/commentators.md) - Traditional commentators by text
 
-**Online sources** for authentic commentaries:
+**Online sources** for authentic commentaries and meter identification:
 - sanskritsahitya.org - Sloka database with Mallinatha commentary
 - gitasupersite.iitk.ac.in - Bhagavad Gita with multiple commentaries
+- github.com/hrishikeshrt/chanda - Deep meter analysis and pattern matching
 - wisdomlib.org - Encyclopedia of Sanskrit texts
 
 ## Example Analysis

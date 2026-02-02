@@ -27,6 +27,6 @@
     "name": "split_parser_devanagari_ityadi",
     "type": "split_parser",
     "input": "इत्यादि",
-    "expected": ["इत्य", "आदि"]
+    "expected": ["इति", "आदि"]
   }
 ]

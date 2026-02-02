@@ -9,11 +9,11 @@ from chandas import to_slp1, analyze_weights_slp1, analyze_verse
 
 
 def test_to_slp1_devanagari():
-    assert to_slp1("वागर्थाविव") == "vAgarthAviva"
+    assert to_slp1("वागर्थाविव") == "vAgarTAviva"
 
 
 def test_to_slp1_iast():
-    assert to_slp1("vāgarthāviva") == "vAgarthAviva"
+    assert to_slp1("vāgarthāviva") == "vAgarTAviva"
 
 
 def test_weights_slp1_long_vowel():

@@ -30,7 +30,7 @@ uv sync --extra full
 
 | Module | Purpose | Instructions |
 |--------|---------|--------------|
-| **sloka-analysis** | Analyzing a specific verse (anvaya, padachheda, chandas) | `sloka-analysis/SKILL.md` |
+| **sloka** | Analyzing a specific verse (anvaya, padachheda, chandas) | `sloka/SKILL.md` |
 | **vyakarana** | Grammar (sandhi, samasa, declensions, conjugations) | `vyakarana/SKILL.md` |
 | **kosha** | Word meanings, synonyms, etymology, gender | `kosha/SKILL.md` |
 | **sahitya** | Literature (texts, authors, genres, rasa theory) | `sahitya/SKILL.md` |
@@ -41,12 +41,12 @@ uv sync --extra full
 
 | User Asks About | Route To |
 |-----------------|----------|
-| "Explain this shloka..." | sloka-analysis |
+| "Explain this shloka..." | sloka |
 | "What is the sandhi in..." | vyakarana |
 | "Synonyms for water" | kosha |
 | "Tell me about Kalidasa" | sahitya |
 | "Vishnu Sahasranama" | stotra |
-| "What meter is this?" | sloka-analysis (chandas) |
+| "What meter is this?" | sloka (chandas) |
 | "Decline rāma" | vyakarana (vibhakti) |
 | "What does X mean?" | kosha |
 
@@ -67,4 +67,6 @@ Common resources in `shared/`:
 | Kavya with commentary | sanskritsahitya.org |
 | Paninian grammar | ashtadhyayi.com |
 | Text library | ambuda.org |
+| Meter Identification | github.com/hrishikeshrt/chanda |
+| Morphological Analysis | github.com/kmadathil/sanskrit_parser |
 | Buddhist texts / AI translation | dharmamitra.org |
