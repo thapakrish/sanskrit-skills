@@ -17,6 +17,7 @@ When words or morphemes combine, their junction points undergo phonetic changes 
 ## स्वरसन्धि (Vowel Sandhi)
 
 ### 1. सवर्णदीर्घ सन्धि (Similar Vowel Lengthening)
+**Sutra: अकः सवर्णे दीर्घः (6.1.101)**
 Same simple vowels combine into their long form.
 
 | Rule | Example |
@@ -27,6 +28,7 @@ Same simple vowels combine into their long form.
 | ऋ/ॠ + ऋ/ॠ = ॠ | पितृ + ऋणम् = पितॄणम् |
 
 ### 2. गुण सन्धि (Guna Sandhi)
+**Sutra: आद्गुणः (6.1.87)**
 अ/आ + इ/ई/उ/ऊ/ऋ = guna vowel
 
 | Rule | Example |
@@ -36,6 +38,7 @@ Same simple vowels combine into their long form.
 | अ/आ + ऋ = अर् | महा + ऋषिः = महर्षिः |
 
 ### 3. वृद्धि सन्धि (Vrddhi Sandhi)
+**Sutra: वृद्धिरेचि (6.1.88)**
 अ/आ + ए/ऐ/ओ/औ = vrddhi vowel
 
 | Rule | Example |
@@ -44,6 +47,7 @@ Same simple vowels combine into their long form.
 | अ/आ + ओ/औ = औ | महा + औषधम् = महौषधम् |
 
 ### 4. यण् सन्धि (Semivowel Sandhi)
+**Sutra: इको यणचि (6.1.77)**
 इ/ई/उ/ऊ/ऋ + dissimilar vowel = semivowel + vowel
 
 | Rule | Example |
@@ -53,6 +57,7 @@ Same simple vowels combine into their long form.
 | ऋ + vowel = र् + vowel | पितृ + आज्ञा = पित्राज्ञा |
 
 ### 5. अयादि सन्धि (Diphthong Sandhi)
+**Sutra: एचोऽयवायावः (6.1.78)**
 ए/ऐ/ओ/औ + vowel = अय्/आय्/अव्/आव् + vowel
 
 | Rule | Example |
@@ -63,6 +68,7 @@ Same simple vowels combine into their long form.
 | औ + vowel = आव् + vowel | नौ + इकः = नाविकः |
 
 ### 6. पूर्वरूप सन्धि
+**Sutra: एङः पदान्तादति (6.1.109)**
 ए/ओ + अ = ए/ओ (अ elided, shown with ऽ)
 
 | Example |
@@ -71,6 +77,7 @@ Same simple vowels combine into their long form.
 | विष्णो + अव = विष्णोऽव |
 
 ### 7. पररूप सन्धि
+**Sutra: एङि पररूपम् (6.1.94)**
 अ + ए/ओ = ए/ओ (rare, in specific contexts)
 
 ---

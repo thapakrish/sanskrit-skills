@@ -38,6 +38,27 @@ Explain derivation:
 ### 4. Usage Context
 Note any special usages, compounds, or literary significance.
 
+## Coverage & Online Fallback Policy
+
+The local markdown references are curated and intentionally finite. If a requested word is missing, use this fallback chain:
+
+1. **Local first (required):** check `references/paryaya.md` and `references/amarakosha.md`.
+2. **Normalize before declaring miss:** handle common script/transliteration variants (Devanagari/IAST/HK).
+3. **Trusted web lookup (fallback):** consult authoritative lexical sources (e.g., Cologne/Monier-Williams, Apte, Ambuda, DSAL-backed dictionaries).
+4. **Return with provenance:** each synonym set must include source label + link.
+5. **Confidence note:** mark output as:
+   - `exact_headword_match`
+   - `lemma_or_inferred_match`
+   - `not_found_in_curated_amarakosha`
+
+### Source Quality Rules
+
+- Prefer primary lexicons/dictionaries first for lexical evidence: Cologne (MW), Apte, DSAL, and Ambuda lexicons.
+- Treat secondary portals (e.g., general aggregators, blog-style explainers) as supplementary only.
+- Avoid unverified blogs/forum posts as primary evidence.
+- If sources disagree, show the overlap first, then source-specific variants.
+- If no reliable source is found, say so explicitly instead of guessing.
+
 ## Quick Lookup Format
 
 For simple queries, provide concise entries:

@@ -1,5 +1,21 @@
 # Sanskrit Online Resources
 
+## Web Lookup Strategy
+
+When local tools (like `sandhi.py` or simple splitters) are insufficient—especially for obscure words, complex compounds, or specific Paninian derivations—use the following search strategies with your preferred search engine.
+
+| Goal | Search Query Pattern | Target Sites |
+|------|----------------------|--------------|
+| **Sandhi / Split** | `"[word]" sandhi split` <br> `"[word]" padachheda sanskrit` | sanskritsahitya.org, sanskrit.inria.fr |
+| **Derivation (Prakriya)** | `"[word]" derivation paninian` <br> `"[word]" prakriya` | ashtadhyayi.com, learn-sanskrit.org |
+| **Dictionary / Meaning** | `"[word]" monier williams` <br> `"[word]" apte dictionary` <br> `"[word]" dsal sanskrit` | Primary: sanskrit-lexicon.uni-koeln.de, dsal.uchicago.edu, ambuda.org <br> Supplementary: learnsanskrit.cc, wisdomlib.org |
+| **Verse Analysis** | `"[start of shloka]..." anvaya meaning` | sanskritdocuments.org, gitasupersite |
+
+**Example:**
+To find the derivation of *nīlāmbara*, search: `"nilambara" derivation sanskrit` or `"nilambara" bahuvrihi samasa`.
+
+---
+
 ## Recommended Platforms
 
 ### Ambuda (ambuda.org)
