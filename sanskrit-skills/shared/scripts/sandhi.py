@@ -40,6 +40,27 @@ except ImportError:
     TRANSLITERATION_AVAILABLE = False
 
 
+SCHEME_TO_SANSCRIPT = {
+    'devanagari': 'DEVANAGARI',
+    'iast': 'IAST',
+    'slp1': 'SLP1',
+    'hk': 'HK',
+    'itrans': 'ITRANS',
+    'velthuis': 'VELTHUIS',
+    'wx': 'WX',
+}
+
+
+def _scheme_const(name):
+    if not TRANSLITERATION_AVAILABLE:
+        return None
+    key = name.lower()
+    attr = SCHEME_TO_SANSCRIPT.get(key)
+    if not attr or not hasattr(sanscript, attr):
+        return None
+    return getattr(sanscript, attr)
+
+
 def detect_scheme(text):
     """Detect transliteration scheme using indic-transliteration."""
     if not TRANSLITERATION_AVAILABLE:
@@ -69,32 +90,34 @@ def to_slp1(text):
     if not TRANSLITERATION_AVAILABLE:
         return text
     scheme = detect_scheme(text)
-    if scheme == 'devanagari':
-        return transliterate(text, sanscript.DEVANAGARI, sanscript.SLP1)
     if scheme == 'slp1':
         return text
-    if scheme == 'hk':
-        return transliterate(text, sanscript.HK, sanscript.SLP1)
-    if scheme == 'itrans':
-        return transliterate(text, sanscript.ITRANS, sanscript.SLP1)
-    if scheme == 'velthuis':
-        return transliterate(text, sanscript.VELTHUIS, sanscript.SLP1)
-    if scheme == 'wx':
-        return transliterate(text, sanscript.WX, sanscript.SLP1)
-    else:
-        return transliterate(text, sanscript.IAST, sanscript.SLP1)
+    src = _scheme_const(scheme) or sanscript.IAST
+    return transliterate(text, src, sanscript.SLP1)
 
 
 def from_slp1(text, target='iast'):
     """Convert SLP1 back to target scheme."""
     if not TRANSLITERATION_AVAILABLE:
         return text
-    if target == 'devanagari':
-        return transliterate(text, sanscript.SLP1, sanscript.DEVANAGARI)
+    target = target.lower()
     if target == 'slp1':
         return text
-    else:
-        return transliterate(text, sanscript.SLP1, sanscript.IAST)
+    dst = _scheme_const(target) or sanscript.IAST
+    return transliterate(text, sanscript.SLP1, dst)
+
+
+def to_iast(text, scheme=None):
+    """Normalize input text to IAST for internal sandhi rules."""
+    if not TRANSLITERATION_AVAILABLE:
+        return text
+    scheme = (scheme or detect_scheme(text)).lower()
+    if scheme == 'iast':
+        return text
+    src = _scheme_const(scheme)
+    if src is None:
+        return text
+    return transliterate(text, src, sanscript.IAST)
 
 
 def split_sandhi_parser(text):
@@ -111,7 +134,10 @@ def split_sandhi_parser(text):
     slp1_text = to_slp1(text)
 
     try:
-        splits = parser.split(slp1_text, limit=5)
+        # Keep a slightly wider candidate window for stable expected splits.
+        splits = parser.split(slp1_text, limit=10)
+        if not splits:
+            return []
         results = []
         for split in splits:
             parts = getattr(split, "split", split)
@@ -175,14 +201,8 @@ def join_sandhi(word1, word2):
     scheme2 = detect_scheme(word2)
     output_scheme = scheme1 if scheme1 == scheme2 else 'iast'
 
-    w1 = word1
-    w2 = word2
-
-    if TRANSLITERATION_AVAILABLE and (scheme1 == 'devanagari' or scheme2 == 'devanagari'):
-        if scheme1 == 'devanagari':
-            w1 = transliterate(word1, sanscript.DEVANAGARI, sanscript.IAST)
-        if scheme2 == 'devanagari':
-            w2 = transliterate(word2, sanscript.DEVANAGARI, sanscript.IAST)
+    w1 = to_iast(word1, scheme1)
+    w2 = to_iast(word2, scheme2)
 
     final = w1[-1].lower()
     initial = w2[0].lower()
@@ -205,10 +225,12 @@ def join_sandhi(word1, word2):
         else:
             result = w1 + w2
 
-    if TRANSLITERATION_AVAILABLE and output_scheme == 'devanagari':
-        return transliterate(result, sanscript.IAST, sanscript.DEVANAGARI)
-
-    return result
+    if not TRANSLITERATION_AVAILABLE or output_scheme == 'iast':
+        return result
+    dst = _scheme_const(output_scheme)
+    if dst is None:
+        return result
+    return transliterate(result, sanscript.IAST, dst)
 
 
 def print_splits(text, results):
@@ -226,6 +248,8 @@ def print_splits(text, results):
         else:
             print("No obvious sandhi patterns detected.")
         print("\nFor accurate splitting, run: uv sync --extra full")
+    elif not results:
+        print("No valid split found.")
     elif isinstance(results[0], str) and results[0].startswith("Error"):
         print(results[0])
     else:

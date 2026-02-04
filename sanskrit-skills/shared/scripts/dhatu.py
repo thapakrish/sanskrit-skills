@@ -207,7 +207,14 @@ def main():
         if len(sys.argv) < 3:
             print("Usage: python dhatu.py --gana <gana_number>")
             sys.exit(1)
-        gana = int(sys.argv[2])
+        try:
+            gana = int(sys.argv[2])
+        except ValueError:
+            print("Error: gana must be an integer from 1 to 10.")
+            sys.exit(1)
+        if gana not in GANA_NAMES:
+            print("Error: gana must be between 1 and 10.")
+            sys.exit(1)
         dhatus = list_by_gana(gana)
         print(f"\nGaṇa {gana} - {GANA_NAMES[gana]}")
         print("=" * 50)
