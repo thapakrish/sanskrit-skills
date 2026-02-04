@@ -304,11 +304,21 @@ def print_analysis(results):
         print("\nMeter: Unidentified or irregular.")
     print("=" * 60)
 
+
+def print_engine_trace():
+    """Show backend/library calls used for this result."""
+    print(
+        "[engine] backend=indic_transliteration + internal_slp1_analyzer "
+        "call=detect()->transliterate(..., SLP1)->analyze_weights_slp1()"
+    )
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
     
     input_verse = " ".join(sys.argv[1:])
+    print_engine_trace()
     data = analyze_verse(input_verse)
     print_analysis(data)

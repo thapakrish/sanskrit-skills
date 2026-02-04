@@ -21,6 +21,66 @@ For simple rule-based joining, a fallback implementation is provided.
 """
 
 import sys
+import logging
+import warnings
+import io
+from contextlib import redirect_stderr
+
+
+class _DropNoisyRootWarnings(logging.Filter):
+    """Drop known optional-dependency warnings emitted on root logger."""
+
+    _NOISY_FRAGMENTS = (
+        "gensim and/or sentencepiece not found. Lexical scoring will be disabled",
+        "To enable scoring please install gensim and sentencepiece",
+    )
+
+    def filter(self, record):
+        msg = record.getMessage()
+        return not any(fragment in msg for fragment in self._NOISY_FRAGMENTS)
+
+
+def _configure_library_output():
+    """Silence noisy third-party logs/warnings in normal CLI usage."""
+    logging.getLogger().addFilter(_DropNoisyRootWarnings())
+    noisy_loggers = (
+        "sanskrit_parser",
+        "sanskrit_parser.api",
+        "sanskrit_parser.base",
+        "sanskrit_parser.base.sanskrit_base",
+        "sanskrit_parser.parser",
+        "sanskrit_parser.util",
+        "sanskrit_parser.util.sanskrit_data_wrapper",
+    )
+    for name in noisy_loggers:
+        logging.getLogger(name).setLevel(logging.WARNING)
+
+    try:
+        from sqlalchemy.exc import SAWarning
+
+        warnings.filterwarnings(
+            "ignore",
+            category=SAWarning,
+            module=r"sanskrit_util\.schema",
+        )
+    except Exception:
+        pass
+
+
+_configure_library_output()
+
+
+def _emit_filtered_stderr(stderr_text):
+    """Re-emit stderr except known optional dependency noise."""
+    if not stderr_text:
+        return
+    for line in stderr_text.splitlines():
+        if (
+            "gensim and/or sentencepiece not found. Lexical scoring will be disabled" in line
+            or "To enable scoring please install gensim and sentencepiece" in line
+        ):
+            continue
+        print(line, file=sys.stderr)
 
 # Try to import sanskrit_parser
 PARSER_AVAILABLE = False
@@ -125,7 +185,8 @@ def split_sandhi_parser(text):
     if not PARSER_AVAILABLE:
         return None
 
-    parser = Parser()
+    # Some backends reconfigure loggers lazily; apply once more before parsing.
+    _configure_library_output()
 
     # Detect original scheme for output
     original_scheme = detect_scheme(text)
@@ -134,8 +195,12 @@ def split_sandhi_parser(text):
     slp1_text = to_slp1(text)
 
     try:
-        # Keep a slightly wider candidate window for stable expected splits.
-        splits = parser.split(slp1_text, limit=10)
+        stderr_buffer = io.StringIO()
+        with redirect_stderr(stderr_buffer):
+            parser = Parser()
+            # Keep a slightly wider candidate window for stable expected splits.
+            splits = parser.split(slp1_text, limit=10)
+        _emit_filtered_stderr(stderr_buffer.getvalue())
         if not splits:
             return []
         results = []
@@ -258,6 +323,26 @@ def print_splits(text, results):
             print(f"  {i}. {' + '.join(split)}")
 
 
+def print_engine_trace(mode, text):
+    """Show backend/library calls used for this result."""
+    if mode == "split":
+        if PARSER_AVAILABLE:
+            print(
+                "[engine] backend=sanskrit_parser (+ indic_transliteration) "
+                'call=Parser().split(to_slp1(text), limit=10)'
+            )
+        else:
+            print("[engine] backend=internal_heuristics call=split_sandhi_basic(text)")
+    else:
+        if TRANSLITERATION_AVAILABLE:
+            print(
+                "[engine] backend=internal_sandhi_rules (+ indic_transliteration) "
+                "call=join_sandhi(word1, word2)"
+            )
+        else:
+            print("[engine] backend=internal_sandhi_rules call=join_sandhi(word1, word2)")
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -271,6 +356,7 @@ def main():
             print("Usage: python sandhi.py --split <text>")
             sys.exit(1)
         text = ' '.join(sys.argv[2:])
+        print_engine_trace("split", text)
         results = split_sandhi_parser(text)
         print_splits(text, results)
 
@@ -279,6 +365,7 @@ def main():
             print("Usage: python sandhi.py --join <word1> <word2>")
             sys.exit(1)
         word1, word2 = sys.argv[2], sys.argv[3]
+        print_engine_trace("join", f"{word1} + {word2}")
         result = join_sandhi(word1, word2)
         print(f"\nJoining: {word1} + {word2}")
         print(f"Result:  {result}")
@@ -286,6 +373,7 @@ def main():
     else:
         # Default: split the input
         text = ' '.join(sys.argv[1:])
+        print_engine_trace("split", text)
         results = split_sandhi_parser(text)
         print_splits(text, results)
 

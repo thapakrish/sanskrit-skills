@@ -77,6 +77,14 @@ def convert(text, from_scheme, to_scheme):
     return transliterate(text, src, dst)
 
 
+def print_engine_trace(from_scheme, to_scheme):
+    """Show backend/library call used for this result."""
+    print(
+        "[engine] backend=indic_transliteration.sanscript "
+        f'call=transliterate(text, "{from_scheme}", "{to_scheme}")'
+    )
+
+
 def main():
     if len(sys.argv) < 4:
         print(__doc__)
@@ -90,6 +98,7 @@ def main():
     to_scheme = sys.argv[3]
 
     try:
+        print_engine_trace(from_scheme, to_scheme)
         result = convert(text, from_scheme, to_scheme)
         print(result)
     except ValueError as e:

@@ -195,6 +195,19 @@ def print_dhatu_info(dhatu, info):
             print(f"  {LAKARA_NAMES[lakara]}: {form}")
 
 
+def print_engine_trace(mode, detail):
+    """Show backend/library calls used for this result."""
+    if mode == "lookup":
+        call = f'lookup_dhatu("{detail}")'
+    elif mode == "gana":
+        call = f"list_by_gana({detail})"
+    else:
+        call = f'search_by_meaning("{detail}")'
+
+    translit = " + indic_transliteration.sanscript.transliterate" if TRANSLITERATION_AVAILABLE else ""
+    print(f"[engine] backend=in_memory_dhatu_db{translit} call={call}")
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -215,6 +228,7 @@ def main():
         if gana not in GANA_NAMES:
             print("Error: gana must be between 1 and 10.")
             sys.exit(1)
+        print_engine_trace("gana", gana)
         dhatus = list_by_gana(gana)
         print(f"\nGaṇa {gana} - {GANA_NAMES[gana]}")
         print("=" * 50)
@@ -226,6 +240,7 @@ def main():
             print("Usage: python dhatu.py --search <meaning>")
             sys.exit(1)
         query = ' '.join(sys.argv[2:])
+        print_engine_trace("search", query)
         results = search_by_meaning(query)
         if results:
             print(f"\nDhatus matching '{query}':")
@@ -237,6 +252,7 @@ def main():
 
     else:
         dhatu = sys.argv[1]
+        print_engine_trace("lookup", dhatu)
         info = lookup_dhatu(dhatu)
         if info:
             print_dhatu_info(dhatu, info)
