@@ -7,6 +7,12 @@ description: Sanskrit grammar analysis including sandhi (euphonic combinations),
 
 Analyze and explain Sanskrit grammatical constructions following the Paninian tradition.
 
+## Provenance & Accuracy
+
+*   **Narrate:** Explain if you are using a local script (`sandhi.py`), a web lookup (Ashtadhyayi.com), or your own inference.
+*   **Verify:** Check derived rules against `references/sandhi.md` or web sources. If a Sutra is not verified, describe the rule phonetically (e.g., "Guṇa: a + i = e") without inventing a Sutra number.
+*   **Label:** Clearly mark inferred derivations or simplified analogies (e.g., "This is a simplified explanation...").
+
 ## Analysis Workflow
 
 When analyzing a word or explaining grammar:
@@ -103,6 +109,10 @@ uv run python transliterate.py "rāma" iast devanagari       # → राम
 # Sandhi
 uv run python sandhi.py --split "devālayaḥ"
 uv run python sandhi.py --join "deva" "ālaya"  # → devālaya
+
+# Prakriya (Derivation)
+uv run python prakriya.py subanta rAma Pum Prathama Eka
+uv run python prakriya.py tinanta gam 1 Kartari Prathama Eka Lat
 
 # Dhatu lookup
 uv run python dhatu.py bhū

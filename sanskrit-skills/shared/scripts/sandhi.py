@@ -40,9 +40,14 @@ class _DropNoisyRootWarnings(logging.Filter):
         return not any(fragment in msg for fragment in self._NOISY_FRAGMENTS)
 
 
+_ROOT_NOISE_FILTER = _DropNoisyRootWarnings()
+
+
 def _configure_library_output():
     """Silence noisy third-party logs/warnings in normal CLI usage."""
-    logging.getLogger().addFilter(_DropNoisyRootWarnings())
+    root_logger = logging.getLogger()
+    if not any(isinstance(f, _DropNoisyRootWarnings) for f in root_logger.filters):
+        root_logger.addFilter(_ROOT_NOISE_FILTER)
     noisy_loggers = (
         "sanskrit_parser",
         "sanskrit_parser.api",
@@ -216,7 +221,8 @@ def split_sandhi_parser(text):
             results.append(words)
         return results
     except Exception as e:
-        return [f"Error: {e}"]
+        print(f"Error: {e}", file=sys.stderr)
+        return []
 
 
 def split_sandhi_basic(text):
@@ -299,7 +305,7 @@ def join_sandhi(word1, word2):
 
 
 def print_splits(text, results):
-    """Print sandhi split results."""
+    """Print sandhi split results, sorted by simplicity."""
     print(f"\nSandhi analysis: {text}")
     print("=" * 50)
 
@@ -315,11 +321,22 @@ def print_splits(text, results):
         print("\nFor accurate splitting, run: uv sync --extra full")
     elif not results:
         print("No valid split found.")
-    elif isinstance(results[0], str) and results[0].startswith("Error"):
-        print(results[0])
     else:
-        print(f"\nFound {len(results)} possible split(s):")
-        for i, split in enumerate(results, 1):
+        # Heuristic: Prefer splits with fewer components (Word + Word) over granular ones.
+        # Also prefer splits where segments are longer on average.
+        results.sort(key=lambda x: len(x))
+        
+        # Deduplicate based on string representation
+        seen = set()
+        unique_results = []
+        for r in results:
+            r_str = " + ".join(r)
+            if r_str not in seen:
+                seen.add(r_str)
+                unique_results.append(r)
+
+        print(f"\nTop {min(len(unique_results), 5)} likely word split(s):")
+        for i, split in enumerate(unique_results[:5], 1):
             print(f"  {i}. {' + '.join(split)}")
 
 
